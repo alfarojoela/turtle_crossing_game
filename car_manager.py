@@ -7,28 +7,29 @@ MOVE_INCREMENT = 10
 
 
 class CarManager(Turtle):
-    def __init__(self, speed):
-        super().__init__()
-        self.penup()
-        self.shape("square")
-        self.color(random.choice(COLORS))
-        self.shapesize(stretch_wid=1, stretch_len=2)
-        self.y_position = random.randint(-250, 250)
-        self.setposition(280, self.y_position)
-        self.x_move = -10
-        self.y_move = 0
-        self.move_speed = speed
+    def __init__(self):
+        self.all_cars = []  #object list declared inside of class.  prior solution declared list in main and appended in main
+        self.car_speed = STARTING_MOVE_DISTANCE
 
-    #had written below previously as new_x =(self.xcor() -MOVE_INCREMENT) * self.move_speed but cars moved
-    #erratically.  below appears to work better as the MOVE_INCREMENT is increased before being subtracted from
-    #present x coordinates.
-    def move(self):
-        new_x = self.xcor() - (MOVE_INCREMENT * self.move_speed)
-        new_y = self.ycor() + self.y_move
-        self.goto(new_x, new_y)
+    def create_car(self):
+        #uses a random number to determine spawn rate of cars.  different methodology.
+        #had used a counter to mediate spawn rate.  counter would increment to six and then go back to 1
+        random_chance = random.randint(1, 6)
+        if random_chance == 1:
+            new_car = Turtle("square")
+            new_car.shapesize(stretch_wid=1, stretch_len = 2)
+            new_car.penup()
+            new_car.color(random.choice(COLORS))
+            random_y = random.randint(-250, 250)
+            new_car.goto(300, random_y)
+            self.all_cars.append(new_car)
 
-    def increment_speed(self):
-        self.move_speed += 0.25
+    def move_cars(self):
+        for car in self.all_cars:
+            car.backward(self.car_speed)
 
+        #solution provides a way to increase speed without passing an argument to the class.
+    def level_up(self):
+        self.car_speed += MOVE_INCREMENT
 
 

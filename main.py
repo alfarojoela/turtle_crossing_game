@@ -12,18 +12,13 @@ game_is_on = True
 
 #put objects here
 player = Player()
+car_manager =CarManager()
 scoreboard= Scoreboard()
 
 #screen listening here
 screen.listen()
 screen.onkey(player.up, "Up")
-screen.onkey(player.down, "Down")
-screen.onkey(player.right, "Right")
-screen.onkey(player.left, "Left")
 
-
-
-car_list =[]
 
 game_loop =1
 speed = 1
@@ -32,30 +27,26 @@ while game_is_on:
     time.sleep(0.1)
     screen.update()
 
-    if game_loop == 6:
-        car_object = CarManager(speed)
-        car_list.append(car_object)
-        game_loop = 1
+    car_manager.create_car()
+    car_manager.move_cars()
 
-    for car in car_list:
-        car.move()
-        if car.xcor() < -500:
-            car.hideturtle()
-            car.clear()
-            car_list.remove(car)
-
-        if player.distance(car) < 15:
-            game_is_on = False
+    for car in car_manager.all_cars:
+        if car.distance(player) < 20:
+            game_is_on = 0
             scoreboard.game_over()
 
-        if player.ycor() >=300:
-            player.setposition((0, -280))
-            scoreboard.increment_level()
-            speed += 0.25
+    if player.is_at_finish_line():
+        player.go_to_start()
+        car_manager.level_up()
+        scoreboard.increase_level()
 
 
 
-    game_loop += 1
+
+
+
+
+
 
 
 

@@ -9,23 +9,24 @@ class Player(Turtle):
     def __init__(self):
         super().__init__()
         self. penup()
-        self.setposition(STARTING_POSITION)
+        self.go_to_start()
         self.shape("turtle")
         self.color("black")
         self.setheading(90)
 
     def up(self):
-        new_y = self.ycor() + 20
-        self.goto(self.xcor(), new_y)
+        # new_y = self.ycor() + MOVE_DISTANCE
+        # self.goto(self.xcor(), new_y)
+        #SOLUTION uses object method of forward rather than using y coordinates and goto method.
+        #appears to have similiar if not same result.
+        self.forward(MOVE_DISTANCE)
 
-    def down(self):
-        new_y = self.ycor() - 20
-        self.goto(self.xcor(), new_y)
+        #code solution uses more methods and constants instead of hardcoded values.
+    def go_to_start(self):
+        self.goto(STARTING_POSITION)
 
-    def right(self):
-        new_x = self.xcor() +20
-        self.goto(new_x, self.ycor())
-
-    def left(self):
-        new_x = self.xcor() -20
-        self.goto(new_x, self.ycor())
+    def is_at_finish_line(self):
+        if self.ycor() > FINISH_LINE_Y:
+            return True
+        else:
+            return False
