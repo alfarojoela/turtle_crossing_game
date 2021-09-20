@@ -26,12 +26,14 @@ screen.onkey(player.left, "Left")
 car_list =[]
 
 game_loop =1
+speed = 1
+
 while game_is_on:
     time.sleep(0.1)
     screen.update()
 
     if game_loop == 6:
-        car_object = CarManager()
+        car_object = CarManager(speed)
         car_list.append(car_object)
         game_loop = 1
 
@@ -49,8 +51,7 @@ while game_is_on:
         if player.ycor() >=300:
             player.setposition((0, -280))
             scoreboard.increment_level()
-            # for cars in car_list:
-            #     cars.increment_speed()
+            speed += 0.25
 
 
 
